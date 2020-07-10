@@ -1,7 +1,6 @@
 #----------------------------------------------------------------------------#
 # Imports
 #----------------------------------------------------------------------------#
-
 import json
 import dateutil.parser
 import babel
@@ -13,10 +12,10 @@ from logging import Formatter, FileHandler
 from flask_wtf import Form
 from forms import *
 from flask_migrate import Migrate
+
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
-
 app = Flask(__name__)
 moment = Moment(app)
 app.config.from_object('config') #connects to local postgres with config.py
@@ -26,7 +25,6 @@ migrate = Migrate(app, db)
 #----------------------------------------------------------------------------#
 # Models.
 #----------------------------------------------------------------------------#
-
 class Venue(db.Model):
     __tablename__ = 'Venue'
 
@@ -71,14 +69,13 @@ class Show(db.Model):
     venue_id = db.Column(db.Integer, db.ForeignKey('Venue.id'), nullable=False)
     artist_id = db.Column(db.Integer, db.ForeignKey('Artist.id'), nullable=False)
 
-
 # DONE Implement Show and Artist models, and complete all model relationships and properties, as a database migration.
 
 db.create_all()
+
 #----------------------------------------------------------------------------#
 # Filters.
 #----------------------------------------------------------------------------#
-
 def format_datetime(value, format='medium'):
   date = dateutil.parser.parse(value)
   if format == 'full':
@@ -92,7 +89,6 @@ app.jinja_env.filters['datetime'] = format_datetime
 #----------------------------------------------------------------------------#
 # Controllers.
 #----------------------------------------------------------------------------#
-
 @app.route('/')
 def index():
   return render_template('pages/home.html')
@@ -100,7 +96,6 @@ def index():
 
 #  Venues
 #  ----------------------------------------------------------------
-
 @app.route('/venues')
 def venues():
   # Done: replace with real venues data.
@@ -187,7 +182,6 @@ def show_venue(venue_id):
     else:
       past_shows.append(tmp)
       num_past += 1
-
   
   data={
     "id": venue.id,
@@ -208,12 +202,10 @@ def show_venue(venue_id):
     "upcoming_shows_count": num_upcoming,
   }
   
-  
   return render_template('pages/show_venue.html', venue=data)
 
 #  Create Venue
 #  ----------------------------------------------------------------
-
 @app.route('/venues/create', methods=['GET'])
 def create_venue_form():
   form = VenueForm()
@@ -355,7 +347,6 @@ def show_artist(artist_id):
     else:
       past_shows.append(tmp)
       num_past += 1
-
   
   data={
     "id": artist.id,
@@ -484,7 +475,6 @@ def edit_venue_submission(venue_id):
 
 #  Create Artist
 #  ----------------------------------------------------------------
-
 @app.route('/artists/create', methods=['GET'])
 def create_artist_form():
   form = ArtistForm()
@@ -526,10 +516,8 @@ def create_artist_submission():
   # e.g., flash('An error occurred. Artist ' + data.name + ' could not be listed.')
   return render_template('pages/home.html')
 
-
 #  Shows
 #  ----------------------------------------------------------------
-
 @app.route('/shows')
 def shows():
   # displays list of shows at /shows
@@ -599,7 +587,6 @@ def not_found_error(error):
 def server_error(error):
     return render_template('errors/500.html'), 500
 
-
 if not app.debug:
     file_handler = FileHandler('error.log')
     file_handler.setFormatter(
@@ -613,7 +600,6 @@ if not app.debug:
 #----------------------------------------------------------------------------#
 # Launch.
 #----------------------------------------------------------------------------#
-
 # Default port:
 if __name__ == '__main__':
     app.run()
