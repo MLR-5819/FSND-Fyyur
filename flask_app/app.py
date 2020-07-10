@@ -532,7 +532,7 @@ def shows():
 
     data.append({
       "venue_id": show.venue_id,
-      "venue_name": show.venue.name ,
+      "venue_name": show.venue.name,
       "artist_id": show.artist_id,
       "artist_name": show.artist.name,
       "artist_image_link": show.artist.image_link,
